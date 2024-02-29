@@ -1,0 +1,26 @@
+{
+  "name": "oila/0account-php",
+  "description": "0account PHP",
+  "keywords": ["convenient","secure","privacy","authentication","login","sign in","sign up","2fa","mfa"],
+  "type": "library",
+  "license": "MIT",
+  "require": {
+    "ext-json": "*"
+  },
+  "authors": [
+    {
+      "name": "Oila GmbH",
+      "homepage": "https://0account.com",
+      "email": "support@0account.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Oila\\ZeroAccount\\": "src/"
+    },
+    "files": [
+      "src/getallheaders.php",
+      "src/utils.php"
+    ]
+  }
+}
