@@ -1,18 +1,15 @@
 <?php declare(strict_types=1);
 
-$authHeaders = ["x-0account-auth", "X-0account-Auth", "X-0account-AUTH"];
-$uuidHeaders = ["x-0account-uuid", "X-0account-Uuid", "X-0account-UUID"];
-
 if (!function_exists('getAuthHeader')) {
     function getAuthHeader($headers): ?string {
-        global $authHeaders;
+        $authHeaders = ["x-0account-auth", "X-0account-Auth", "X-0account-AUTH"];
         return getFromHeader($authHeaders, $headers);
     }
 }
 
 if (!function_exists('getUUIDHeader')) {
     function getUUIDHeader($headers): ?string {
-        global $uuidHeaders;
+        $uuidHeaders = ["x-0account-uuid", "X-0account-Uuid", "X-0account-UUID"];
         return getFromHeader($uuidHeaders, $headers);
     }
 }
