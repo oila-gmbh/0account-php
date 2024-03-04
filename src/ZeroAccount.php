@@ -7,7 +7,7 @@ use InvalidArgumentException;
 final class ZeroAccount
 {
     /**
-     * @var Engine
+     * @var ?Engine
      */
     private $engine;
 
@@ -18,27 +18,27 @@ final class ZeroAccount
 
     /**
      * @param String $appSecret
-     * @param Engine $engine
+     * @param ?Engine $engine
      */
-    public function __construct(String $appSecret, Engine $engine)
+    public function __construct(string $appSecret, ?Engine $engine = null)
     {
         $this->appSecret = $appSecret;
-        $this->engine = $engine;
+        $this->engine = $engine ?? new FileEngine();
     }
 
     /**
-     * @return array
+     * @return Result
      * throws Exception
      */
-    public function auth(): array
+    public function auth(): Result
     {
         if (empty($this->appSecret)) {
             throw new InvalidArgumentException("app secret is not set");
-	    }
+        }
 
         if (!isset($this->engine)) {
             throw new InvalidArgumentException("engine is not set and/or the library is not initialised");
-	    }
+        }
 
         $body = json_decode(file_get_contents('php://input'), true);
         $body = $body ?: $_POST;
