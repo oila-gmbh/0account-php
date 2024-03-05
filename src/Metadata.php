@@ -12,7 +12,7 @@ class Metadata
     {
         $this->userId = $userId;
         $this->profileId = $profileId;
-        $this->isWebhookRequest = $$isWebhookRequest;
+        $this->isWebhookRequest = $isWebhookRequest;
     }
 
     /**
