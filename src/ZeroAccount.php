@@ -40,6 +40,10 @@ final class ZeroAccount
             throw new InvalidArgumentException("engine is not set and/or the library is not initialised");
         }
 
+        if (is_string($body)) {
+            $body = json_decode($body, true);
+        }
+
         $uuid = getUUIDHeader($headers);
         if (!isset($uuid)) throw new InvalidArgumentException("uuid is not provided");
 
