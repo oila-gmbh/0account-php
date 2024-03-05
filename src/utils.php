@@ -32,16 +32,27 @@ if (!function_exists('getFromHeader')) {
 if (!function_exists('getFromHeaders')) {
     function getFromHeaders($headerName, $headers): ?string
     {
-        if (isset($headers[$headerName])) return $headers[$headerName];
+        if (isset($headers[$headerName])) return headerString($headers[$headerName]);
 
         $lowerCaseHeaderName = strtolower($headerName);
 
         foreach ($headers as $key => $value) {
             if (strtolower($key) === $lowerCaseHeaderName) {
-                if ($value) return $value;
+                if ($value) return headerString($value);
             }
         }
         return null;
+    }
+}
+
+if (!function_exists('headerString')) {
+    function headerString($header): ?string
+    {
+        if (is_array($header)) {
+            $headers = array_reverse($header);
+            return array_pop($headers);
+        }
+        return $header;
     }
 }
 

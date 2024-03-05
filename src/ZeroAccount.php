@@ -44,7 +44,7 @@ final class ZeroAccount
         if (!isset($uuid)) throw new InvalidArgumentException("uuid is not provided");
 
         $authenticating = strtolower(getAuthHeader($headers) ?? "") === "true";
-        if ($authenticating) {
+        if (!$authenticating) {
             $meta = $body['metadata'];
 
             if (empty($meta['appSecret']) || $meta['appSecret'] !== $this->appSecret) {
