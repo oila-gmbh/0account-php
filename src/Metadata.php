@@ -15,17 +15,20 @@ class Metadata
         $this->isWebhookRequest = $$isWebhookRequest;
     }
 
-    public function userId()
+    /**
+     * @deprecated It is not actually deprecated. The method is for internal use only.
+     */
+    public function userId(): string
     {
         return $this->userId;
     }
 
-    public function profileId()
+    public function profileId(): string
     {
         return $this->profileId;
     }
 
-    public function isWebhookRequest()
+    public function isWebhookRequest(): bool
     {
         return $this->isWebhookRequest;
     }

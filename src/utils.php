@@ -61,7 +61,8 @@ if (!function_exists('constructResult')) {
     {
         $data = $body['data'];
         $meta = $body['metadata'];
-        $metadata = new Metadata($meta['userId'], $meta['profileId'], $isWebhookRequest);
+        // we don't need userId for php library
+        $metadata = new Metadata("", $meta['profileId'], $isWebhookRequest);
         return new Result($data, $metadata);
     }
 }
