@@ -30,7 +30,7 @@ final class ZeroAccount
      * @return Result
      * throws Exception
      */
-    public function auth(): Result
+    public function auth($headers, $body): Result
     {
         if (empty($this->appSecret)) {
             throw new InvalidArgumentException("app secret is not set");
@@ -39,10 +39,6 @@ final class ZeroAccount
         if (!isset($this->engine)) {
             throw new InvalidArgumentException("engine is not set and/or the library is not initialised");
         }
-
-        $body = json_decode(file_get_contents('php://input'), true);
-        $body = $body ?: $_POST;
-        $headers = getallheaders();
 
         $uuid = getUUIDHeader($headers);
         if (!isset($uuid)) throw new InvalidArgumentException("uuid is not provided");

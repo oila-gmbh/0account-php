@@ -19,7 +19,6 @@
       "Oila\\ZeroAccount\\": "src/"
     },
     "files": [
-      "src/getallheaders.php",
       "src/utils.php"
     ]
   }
