@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Oila\ZeroAccount;
 
 final class FileEngine implements Engine
@@ -12,8 +14,16 @@ final class FileEngine implements Engine
     public function get(string $key): ?array
     {
         $data = file_get_contents($key . '.txt');
+
+        if ($data === false) {
+            return null;
+        }
+
         unlink($key . '.txt');
 
-        return json_decode($data, true);
+        /** @var ?array<string, mixed> $result */
+        $result = json_decode($data, true);
+
+        return $result;
     }
 }
