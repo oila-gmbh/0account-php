@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Oila\ZeroAccount;
 
 use InvalidArgumentException;
@@ -7,7 +9,7 @@ use InvalidArgumentException;
 final class ZeroAccount
 {
     /**
-     * @var ?Engine
+     * @var Engine
      */
     private $engine;
 
@@ -23,50 +25,56 @@ final class ZeroAccount
     }
 
     /**
-     * @return Result
+     * @param array<string, string> $headers
+     * @param array<string, mixed>|string $body
      * throws Exception
      */
-    public function auth($headers, $body): Result
+    public function auth(array $headers, $body): Result
     {
         if (empty($this->appSecret)) {
             throw new InvalidArgumentException("app secret is not set");
         }
 
-        if (!isset($this->engine)) {
-            throw new InvalidArgumentException("engine is not set and/or the library is not initialised");
-        }
-
-        if (is_string($body)) {
-            $body = json_decode($body, true);
-        }
+        /** @var ?array<string, mixed> $bodyArr */
+        $bodyArr = is_string($body) ? json_decode($body, true) : $body;
 
         $uuid = getUUIDHeader($headers);
-        if (!isset($uuid)) throw new InvalidArgumentException("uuid is not provided");
+        if (empty($uuid)) throw new InvalidArgumentException("uuid is not provided");
+        if (empty($bodyArr)) throw new InvalidArgumentException("body is not provided");
 
         $authenticating = strtolower(getAuthHeader($headers) ?? "") === "true";
         if (!$authenticating) {
-            $meta = $body['metadata'];
+            /** @var array<string, mixed> $meta */
+            $meta = $bodyArr['metadata'] ?? [];
+            /** @var ?string $appSecret */
+            $appSecret = $meta['appSecret'] ?? null;
 
-            if (empty($meta['appSecret']) || $meta['appSecret'] !== $this->appSecret) {
+            if (empty($appSecret) || $appSecret !== $this->appSecret) {
                 throw new InvalidArgumentException("incorrect app secret");
             }
-            unset($body['metadata']['appSecret']);
-            $this->save($uuid, $body);
-            return constructResult($body, true);
+            unset($meta['appSecret']);
+            $this->save($uuid, $bodyArr);
+            return constructResult($bodyArr, true);
         }
 
         $newBody = $this->authorize($uuid);
         return constructResult($newBody, false);
     }
 
-    private function save($uuid, $body)
+    /**
+     * @param array<string, mixed> $body
+     */
+    private function save(?string $uuid, array $body): void
     {
-        if (!isset($body)) throw new InvalidArgumentException('no data has been provided');
-        if (!isset($uuid)) throw new InvalidArgumentException('uuid is required');
+        if (empty($body)) throw new InvalidArgumentException('no data has been provided');
+        if (empty($uuid)) throw new InvalidArgumentException('uuid is required');
         $this->engine->set($uuid, $body);
     }
 
-    private function authorize($uuid): array
+    /**
+     * @return array<string, mixed>
+     */
+    private function authorize(string $uuid): array
     {
         $body = $this->engine->get($uuid);
         if (empty($body)) throw new InvalidArgumentException('could not get data from the engine');
