@@ -4,7 +4,7 @@ namespace Oila\ZeroAccount;
 
 interface Engine
 {
-    public function set(string $key, array $value);
+    public function set(string $key, array $value): void;
 
-    public function get(string $key): array;
+    public function get(string $key): ?array;
 }

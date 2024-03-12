@@ -16,10 +16,6 @@ final class ZeroAccount
      */
     private $appSecret;
 
-    /**
-     * @param String $appSecret
-     * @param ?Engine $engine
-     */
     public function __construct(string $appSecret, ?Engine $engine = null)
     {
         $this->appSecret = $appSecret;

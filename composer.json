@@ -5,7 +5,11 @@
   "type": "library",
   "license": "MIT",
   "require": {
-    "ext-json": "*"
+    "ext-json": "*",
+    "php": "^7.2|^8.0"
+  },
+  "require-dev": {
+      "phpstan/phpstan": "^1.10"
   },
   "authors": [
     {

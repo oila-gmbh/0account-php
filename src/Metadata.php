@@ -4,11 +4,16 @@ namespace Oila\ZeroAccount;
 
 class Metadata
 {
+    /** @var string $userId */
     private $userId;
+
+    /** @var string $profileId */
     private $profileId;
+
+    /** @var bool $isWebhookRequest */
     private $isWebhookRequest;
 
-    public function __construct($userId, $profileId, $isWebhookRequest = false)
+    public function __construct(string $userId, string $profileId, bool $isWebhookRequest = false)
     {
         $this->userId = $userId;
         $this->profileId = $profileId;
