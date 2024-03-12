@@ -53,6 +53,7 @@ final class ZeroAccount
                 throw new InvalidArgumentException("incorrect app secret");
             }
             unset($meta['appSecret']);
+            $bodyArr['metadata'] = $meta;
             $this->save($uuid, $bodyArr);
             return constructResult($bodyArr, true);
         }
